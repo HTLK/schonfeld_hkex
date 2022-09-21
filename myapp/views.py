@@ -9,6 +9,7 @@ def contact(request):
     import matplotlib.ticker as mtick
     from io import BytesIO
     import base64
+    import pandas as pd
 
     html = ''
     chg_summary_html = ''
@@ -48,7 +49,14 @@ def contact(request):
             html = hkex_obj.shareholding_data.to_html()
 
             hkex_obj.runChangeAnalysis()
-            hkex_obj.chg_summary['% Change in total number of Issued Shares/ Warrants/ Units held'] = hkex_obj.chg_summary['% Change in total number of Issued Shares/ Warrants/ Units held'].astype(float).map("{:.2%}".format)
+            if hkex_obj.chg_summary == None:
+                hkex_obj.chg_summary = pd.DataFrame(columns = ['Participant ID',
+                                                      'Name of CCASS Participant',
+                                                      '% Change in total number of Issued Shares/ Warrants/ Units held',
+                                                      'Date of Transaction'
+                                                      ])
+            else:
+                hkex_obj.chg_summary['% Change in total number of Issued Shares/ Warrants/ Units held'] = hkex_obj.chg_summary['% Change in total number of Issued Shares/ Warrants/ Units held'].astype(float).map("{:.2%}".format)
             chg_summary_html = hkex_obj.chg_summary.to_html()
 
     form = HKEXForm()
