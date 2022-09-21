@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form method = "post">
+      {% csrf_token %}
+      {{ form }}
+      <button type = 'submit'>Submit</button>
+    </form>
+    <h2> Tab 1 - Trend plot </h2>
+    <img src="data:image/png;base64,{{ graphic|safe }}">
+    {{ html|safe }}
+    <h2> Tab 2 - Transaction Finder </h2>
+    {{ chg_summary|safe }}
+  </body>
+</html>
